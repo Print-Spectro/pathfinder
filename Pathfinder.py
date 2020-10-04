@@ -10,6 +10,19 @@ from os import system
 from sys import exit
 def clear(): 
   system("cls")
+  
+maze1 = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 1, 2, 1, 2, 2, 2, 2, 2],
+    [1, 2, 1, 2, 1, 2, 1, 1, 1, 1],
+    [1, 2, 1, 2, 1, 2, 1, 2, 2, 1],
+    [1, 2, 2, 2, 1, 2, 1, 2, 1, 1],
+    [1, 2, 1, 2, 1, 1, 1, 2, 2, 1],
+    [1, 2, 1, 2, 2, 2, 2, 2, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 2, 1, 1]
+    ]
 
 def printgame(board):
     dic = {1:"   ", 2:"███", 3:" P ", 0:"   ", "W":"^", "^":"O", "v":"O", "<":"O",">":"O", "a":"A"}
@@ -57,8 +70,10 @@ class Maze:
                 #print(self.path)
                 self.pathin()
                 self.maze[j[0]][j[1]] == 3
-                #printgrid(self.maze)
-                return          
+                printgame(maze.maze)
+                #printgrid(maze.maze)
+                input("Enter To Exit")
+                exit()        
                 
                 
             if j[0] >= 0 and j[1] >= 0 and j[0] < len(self.maze) and j[1] < len(self.maze):
@@ -153,31 +168,29 @@ def matrix(y,x, end):
         return [[y, x-1],[y-1,x-1],[y+1, x-1],[y-1,x],[y+1,x],[y-1,x+1],[y+1, x+1],[y, x+1]]
     elif 292.5< angle <=337.5:
         return [[y+1, x-1],[y+1,x],[y, x-1],[y+1, x+1],[y-1,x-1],[y, x+1],[y-1,x],[y-1,x+1]]
-    else:
-        return [[y+1, x-1],[y+1,x],[y, x-1],[y+1, x+1],[y-1,x-1],[y, x+1],[y-1,x],[y-1,x+1]]
+    # else:
+    #     return [[y+1, x-1],[y+1,x],[y, x-1],[y+1, x+1],[y-1,x-1],[y, x+1],[y-1,x],[y-1,x+1]]
     
 
 
 maze = Maze(10)
 maze.maze = [
+    [1, 1, 2, 1, 2, 1, 1, 1, 1, 1],
+    [1, 1, 2, 1, 2, 1, 1, 1, 1, 1],
+    [1, 2, 2, 1, 2, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-    [1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 2, 1, 2, 1, 2, 2, 2, 2, 2],
-    [1, 2, 1, 2, 1, 2, 1, 1, 1, 1],
-    [1, 2, 1, 2, 1, 2, 1, 2, 2, 1],
-    [1, 2, 2, 2, 1, 2, 1, 2, 1, 1],
-    [1, 2, 1, 2, 1, 1, 1, 2, 2, 1],
-    [1, 2, 1, 2, 2, 2, 2, 2, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 2, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 2, 2, 2, 2, 2, 1],
+    [1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 2, 1, 2, 2, 2, 2],
+    [1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
     ]
 printgame(maze.maze)
 input("Enter To Pathfind")
-maze.path.append([0,0])
-maze.clear_tiles(0,0, [9,9])
-printgame(maze.maze)
-#printgrid(maze.maze)
-input("Enter To Exit")
+maze.path.append([9,0])
+maze.clear_tiles(9,0, [9,9])
+
 
 
 
