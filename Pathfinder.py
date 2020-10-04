@@ -11,6 +11,16 @@ from sys import exit
 def clear(): 
   system("cls")
 
+def printgame(board):
+    dic = {1:"   ", 2:"███", 3:" P ", 0:" O ", "W":"^", "^":"O", "v":"O", "<":"O",">":"O", "a":"A"}
+    out = ""
+    for i in board:
+        out += "]"
+        for j in i:
+            out += dic[j]
+        out += "[\n"
+    print(out)
+
 printgrid = lambda grid: [print(i) for i in grid]
 
 class Maze:
@@ -35,19 +45,18 @@ class Maze:
             self.maze[self.wall[i][0]][self.wall[i][1]] = 2
             
     def pathin(self):        
-        for i in range(len(self.wall)):
+        for i in range(len(self.path)):
             print(i)
             self.maze[self.path[i][0]][self.path[i][1]] = 3
             
-    def clear_tiles(self, y, x, end):
-        
+    def clear_tiles(self, y, x, end):                
         for j in matrix(y,x, end):
+            
             if j == end:
                 print(self.path)
                 self.pathin()
                 printgrid(self.maze)
-                input("Enter To Exit")
-                
+                input("Enter To Exit")                
                 exit()
                 
             try:   
@@ -56,23 +65,27 @@ class Maze:
                     self.maze[j[0]][j[1]] = 0
                     
                     clear()
-                    printgrid(self.maze)
+                    printgame(self.maze)
                     if [y,x] == self.path[-1]:
                         self.path.append(j)
+                        print(self.path)
                     else:
                         count = 0
                         u = True
                         while u:
+                            print(count)
                             if self.path[count] == [y,x]:
+                                print("X,Y " + str(x,y))
                                 self.path = self.path[:count + 1]
                                 u = False
-                        count += 1
+                            count += 1
                         self.path.append(j)    
                             
                             
-                    sleep(0.1)
+                    sleep(0.4)
+                    print("coords " + str(j))
                     self.clear_tiles(j[0],j[1], end)
-                    
+                   
             except:
                 "a"
         
@@ -142,20 +155,21 @@ def matrix(y,x, end):
 maze = Maze(10)
 maze.maze = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 2, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 2, 2, 2, 2, 2, 2, 1, 1],
+    [1, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 1, 2, 1, 2, 2, 2, 2, 2],
+    [1, 2, 1, 2, 1, 2, 1, 1, 1, 1],
+    [1, 2, 1, 2, 1, 2, 1, 2, 2, 1],
+    [1, 2, 2, 2, 1, 2, 1, 2, 1, 1],
+    [1, 2, 1, 2, 1, 1, 1, 2, 2, 1],
+    [1, 2, 1, 2, 2, 2, 2, 2, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 2, 1, 1]
     ]
 printgrid(maze.maze)
 maze.path.append([0,0])
 maze.clear_tiles(0,0, [9,9])
-
+printgame(maze.maze)
+input()
 
 
 
