@@ -12,7 +12,7 @@ def clear():
   system("cls")
 
 def printgame(board):
-    dic = {1:"   ", 2:"███", 3:" P ", 0:" O ", "W":"^", "^":"O", "v":"O", "<":"O",">":"O", "a":"A"}
+    dic = {1:"   ", 2:"███", 3:" P ", 0:"   ", "W":"^", "^":"O", "v":"O", "<":"O",">":"O", "a":"A"}
     out = ""
     for i in board:
         out += "]"
@@ -46,48 +46,52 @@ class Maze:
             
     def pathin(self):        
         for i in range(len(self.path)):
-            print(i)
+            
             self.maze[self.path[i][0]][self.path[i][1]] = 3
             
-    def clear_tiles(self, y, x, end):                
+    def clear_tiles(self, y, x, end): 
+        self.maze[y][x] = 0               
         for j in matrix(y,x, end):
             
             if j == end:
-                print(self.path)
+                #print(self.path)
                 self.pathin()
-                printgrid(self.maze)
-                input("Enter To Exit")                
-                exit()
+                self.maze[j[0]][j[1]] == 3
+                #printgrid(self.maze)
+                return          
                 
-            try:   
-
-                if self.maze[j[0]][j[1]] == 1 and j[0] >= 0 and j[1] >= 0:
+                
+            if j[0] >= 0 and j[1] >= 0 and j[0] < len(self.maze) and j[1] < len(self.maze):
+                if self.maze[j[0]][j[1]] == 1 and j[0] >= 0 and j[1] >= 0 and j[0] < len(self.maze) and j[1] < len(self.maze):
                     self.maze[j[0]][j[1]] = 0
                     
-                    clear()
-                    printgame(self.maze)
+                    #clear()
+                    #printgame(self.maze)
                     if [y,x] == self.path[-1]:
+                        #print(str((y,x)) + " A " + str(self.path[-1]))
                         self.path.append(j)
-                        print(self.path)
+                        #print(self.path)
+                        
                     else:
                         count = 0
                         u = True
                         while u:
-                            print(count)
+                            #print(count)
                             if self.path[count] == [y,x]:
-                                print("X,Y " + str(x,y))
+                                #print("X,Y " + str((x,y))
                                 self.path = self.path[:count + 1]
                                 u = False
                             count += 1
                         self.path.append(j)    
                             
                             
-                    sleep(0.4)
-                    print("coords " + str(j))
+                    
+                    #print("coords " + str(j))
                     self.clear_tiles(j[0],j[1], end)
-                   
-            except:
-                "a"
+            # except RecursionError:
+            #     print("RecursionError")
+            # except:
+            #     "a"
         
                             
                            
@@ -132,8 +136,8 @@ def matrix(y,x, end):
     """
     
     angle = math.degrees(math.atan2(end[1] - x,end[0] - y)) % 360
-    print(angle)
-    if 337.5<= angle <=22.5:
+    #print(angle)
+    if angle <=22.5 or 337.5< angle:
         return [[y+1,x],[y+1, x-1],[y+1, x+1],[y, x-1],[y, x+1],[y-1,x-1],[y-1,x+1],[y-1,x]]
     elif 22.5< angle <=67.5:
         return [[y+1, x+1],[y+1,x],[y, x+1],[y+1, x-1],[y-1,x+1],[y, x-1],[y-1,x],[y-1,x-1]]
@@ -148,6 +152,8 @@ def matrix(y,x, end):
     elif 247.5< angle <=292.5:
         return [[y, x-1],[y-1,x-1],[y+1, x-1],[y-1,x],[y+1,x],[y-1,x+1],[y+1, x+1],[y, x+1]]
     elif 292.5< angle <=337.5:
+        return [[y+1, x-1],[y+1,x],[y, x-1],[y+1, x+1],[y-1,x-1],[y, x+1],[y-1,x],[y-1,x+1]]
+    else:
         return [[y+1, x-1],[y+1,x],[y, x-1],[y+1, x+1],[y-1,x-1],[y, x+1],[y-1,x],[y-1,x+1]]
     
 
@@ -165,11 +171,13 @@ maze.maze = [
     [1, 2, 1, 2, 2, 2, 2, 2, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 2, 1, 1]
     ]
-printgrid(maze.maze)
+printgame(maze.maze)
+input("Enter To Pathfind")
 maze.path.append([0,0])
 maze.clear_tiles(0,0, [9,9])
 printgame(maze.maze)
-input()
+#printgrid(maze.maze)
+input("Enter To Exit")
 
 
 
